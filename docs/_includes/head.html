@@ -1,0 +1,20 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {%- seo -%}
+    <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+    {%- feed_meta -%}
+    {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+    {%- endif -%}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@adamaltmejd" />
+    <meta name="twitter:creator" content="@adamaltmejd" />
+    <meta name="twitter:title" content="Swedish Covid-19 deaths" />
+    <meta name="twitter:description"
+        content="Graph of Covid-19 deaths in Sweden by actual date of death, sorted by lag in reporting." />
+    <meta name="twitter:image" content="https://adamaltmejd.se/covid/deaths_lag_sweden_latest.png" />
+
+</head>

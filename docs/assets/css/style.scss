@@ -1,0 +1,36 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap");
+
+body,
+.markdown-body {
+    background-color: #f5f5f5 !important;
+}
+
+body,
+p,
+.markdown-body {
+    font-family: "EB Garamond", serif !important;
+}
+
+.wrapper {
+    max-width: 1060px !important;
+}
+
+img {
+    background-color: transparent !important;
+}
+
+h1 {
+    border: none !important;
+}
+h1 a {
+    display: none !important;
+}
+
+.footer {
+    visibility: hidden !important;
+}

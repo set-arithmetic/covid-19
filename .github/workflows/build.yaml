@@ -1,0 +1,57 @@
+name: make_drake_cron
+
+on:
+    push:
+        branches: [master]
+    schedule:
+        # UTC is currently -1 wrt Europe/Stockholm (CEST)
+        - cron: "02,30 13 * * *"
+
+jobs:
+    build:
+        runs-on: ubuntu-20.04
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Install dependencies
+              run: |
+                sudo apt-get update -qq
+                sudo apt-get install -y libcurl4-openssl-dev fonts-ebgaramond
+
+            - name: Setup R
+              uses: r-lib/actions/setup-r@v2
+              with:
+                  r-version: "4.1.1"
+
+            - name: renv cache
+              uses: actions/cache@v2
+              with:
+                  path: ~/.local/share/renv
+                  key: ${{ runner.os }}-renv-v2-${{ hashFiles('**/renv.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-renv-v2-
+
+            - name: drake cache
+              uses: actions/cache@v2
+              with:
+                  path: .drake
+                  key: ${{ runner.os }}-drake-v2-${{ hashFiles('**/cache.log') }}
+                  restore-keys: |
+                      ${{ runner.os }}-drake-v2-
+
+            - name: renv
+              shell: Rscript {0}
+              run: |
+                  if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+                  renv::restore()
+
+            - name: build
+              run: Rscript -e 'drake::r_make()'
+
+            - name: push
+              run: |
+                  git config --global user.name 'Adam Altmejd'
+                  git config --global user.email 'adamaltmejd@users.noreply.github.com'
+                  git add --all
+                  git commit --allow-empty -m "Github Action autocommit"
+                  git push
